@@ -40,8 +40,6 @@ public class ContatoEgressoService {
             throw new RegraNegocioRunTime("Um contato válido deve ser informado");  
         if((contatoEgresso.getEgresso() == null) || (contatoEgresso.getEgresso().equals("")))
             throw new RegraNegocioRunTime("id do Egresso inválido no contato");
-        if((contatoEgresso.getDescricao() == null) || (contatoEgresso.getDescricao().equals("")))
-            throw new RegraNegocioRunTime("Descrição do contato deve ser informado");
     }
     
 }

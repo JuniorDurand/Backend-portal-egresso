@@ -107,41 +107,41 @@ public class EgressoServiceTest {
             .build();
     }
 
-    @Test
-    public void deveVerificarCadastro() {
-        // dados do banco
-        Curso curso = this.createCenarioCurso();
-        FaixaSalario faixaSalario = this.createCenarioFaixaSalario();
-        Cargo cargo = this.createCenarioCargo();
-        Contato contato = this.createCenarioContato();
-        faixaSalario = repoFaixaSalario.save(faixaSalario);
-        curso = repoCurso.save(curso);
-        cargo = repoCargo.save(cargo);
-        contato = repoContato.save(contato);
+    // @Test
+    // public void deveVerificarCadastro() {
+    //     // dados do banco
+    //     Curso curso = this.createCenarioCurso();
+    //     FaixaSalario faixaSalario = this.createCenarioFaixaSalario();
+    //     Cargo cargo = this.createCenarioCargo();
+    //     Contato contato = this.createCenarioContato();
+    //     faixaSalario = repoFaixaSalario.save(faixaSalario);
+    //     curso = repoCurso.save(curso);
+    //     cargo = repoCargo.save(cargo);
+    //     contato = repoContato.save(contato);
 
-        // dados inseridos pelo usuário
-        Egresso egresso = this.createCenario();
-        ProfEgresso profEgresso = this.createCenarioProfEgresso(egresso, cargo, faixaSalario);
-        List<ProfEgresso> profEgressoList = new ArrayList();
-        profEgressoList.add(profEgresso);
+    //     // dados inseridos pelo usuário
+    //     Egresso egresso = this.createCenario();
+    //     ProfEgresso profEgresso = this.createCenarioProfEgresso(egresso, cargo, faixaSalario);
+    //     List<ProfEgresso> profEgressoList = new ArrayList();
+    //     profEgressoList.add(profEgresso);
 
-        CursoEgresso cursoEgresso = this.createCenarioCursoEgresso(curso, egresso);
-        List<CursoEgresso> cursoEgressoList = new ArrayList();
-        cursoEgressoList.add(cursoEgresso);
+    //     CursoEgresso cursoEgresso = this.createCenarioCursoEgresso(curso, egresso);
+    //     List<CursoEgresso> cursoEgressoList = new ArrayList();
+    //     cursoEgressoList.add(cursoEgresso);
 
-        ContatoEgresso contatoEgresso = this.createCenarioContatoEgresso(egresso, contato);
-        List<ContatoEgresso> contatoEgressoList = new ArrayList();
-        contatoEgressoList.add(contatoEgresso);
+    //     ContatoEgresso contatoEgresso = this.createCenarioContatoEgresso(egresso, contato);
+    //     List<ContatoEgresso> contatoEgressoList = new ArrayList();
+    //     contatoEgressoList.add(contatoEgresso);
         
-        // ação
-        Egresso salvo = service.cadastrarEgresso(egresso, profEgressoList, cursoEgressoList, contatoEgressoList);
+    //     // ação
+    //     Egresso salvo = service.cadastrarEgresso(egresso, profEgressoList, cursoEgressoList, contatoEgressoList);
 
-        //verificação
-        Assertions.assertNotNull(salvo);
-        Assertions.assertEquals(egresso.getNome(), salvo.getNome());
-        Assertions.assertEquals(egresso.getEmail(), salvo.getEmail());
-        Assertions.assertEquals(egresso.getCpf(), salvo.getCpf());
-    }
+    //     //verificação
+    //     Assertions.assertNotNull(salvo);
+    //     Assertions.assertEquals(egresso.getNome(), salvo.getNome());
+    //     Assertions.assertEquals(egresso.getEmail(), salvo.getEmail());
+    //     Assertions.assertEquals(egresso.getCpf(), salvo.getCpf());
+    // }
 
     @Test
     public void deveVerificarRemover() {

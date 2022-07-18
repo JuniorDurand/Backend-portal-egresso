@@ -43,6 +43,13 @@ public class CursoService {
         repo.delete(curso.get());
     }
 
+    public Curso buscarPorId(Long id) {      
+        if(id == null)  throw new RegraNegocioRunTime("curso não selecionado");
+        Optional<Curso> curso = repo.findById(id);
+        if(curso.isEmpty()) throw new RegraNegocioRunTime("curso não encontrado");
+        return curso.get();
+    }
+
     private void verificarId(Curso curso) {
         if ((curso == null) || (curso.getId() == null))
             throw new RegraNegocioRunTime("curso não encontrado "+curso.getId());

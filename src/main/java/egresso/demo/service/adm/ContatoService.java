@@ -43,11 +43,12 @@ public class ContatoService {
         repo.deleteById(id);
     }
 
-    // public void remover(Contato contato) {
-    //     verificarId(contato);
-    //     verificarContatoEgresso(contato);
-    //     repo.delete(contato);
-    // }
+    public Contato buscarPorId(Long id) {      
+        if(id == null)  throw new RegraNegocioRunTime("contato não selecionado "+id);
+        Optional<Contato> contato = repo.findById(id);
+        if(contato.isEmpty()) throw new RegraNegocioRunTime("contato não encontrado");
+        return contato.get();
+    }
 
     private void verificarId(Contato contato) {
         if ((contato == null) || (contato.getId() == null))

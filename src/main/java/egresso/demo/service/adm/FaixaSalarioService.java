@@ -43,11 +43,12 @@ public class FaixaSalarioService {
         repo.deleteById(id);
     }
 
-    // public void remover(FaixaSalario faixaSalario) {        
-    //     verificarId(faixaSalario);
-    //     verificarProfEgresso(faixaSalario);
-    //     repo.delete(faixaSalario);
-    // }
+    public FaixaSalario buscarPorId(Long id) {      
+        if(id == null)  throw new RegraNegocioRunTime("faixa_salario não selecionado");
+        Optional<FaixaSalario> faixa_salario = repo.findById(id);
+        if(faixa_salario.isEmpty()) throw new RegraNegocioRunTime("faixa_salario não encontrado");
+        return faixa_salario.get();
+    }
 
     private void verificarId(FaixaSalario faixaSalario) {
         if ((faixaSalario == null) || (faixaSalario.getId() == null))

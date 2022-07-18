@@ -11,11 +11,13 @@ import egresso.demo.entity.CursoEgresso;
 import egresso.demo.entity.Depoimento;
 import egresso.demo.entity.Egresso;
 import egresso.demo.entity.ProfEgresso;
+import egresso.demo.entity.Usuario;
 import egresso.demo.entity.repository.ContatoEgressoRepo;
 import egresso.demo.entity.repository.CursoEgressoRepo;
 import egresso.demo.entity.repository.DepoimentoRepo;
 import egresso.demo.entity.repository.EgressoRepo;
 import egresso.demo.entity.repository.ProfEgressoRepo;
+import egresso.demo.service.adm.UsuarioService;
 import egresso.demo.service.exceptions.RegraNegocioRunTime;
 
 @Service
@@ -45,29 +47,36 @@ public class EgressoService {
     @Autowired
     ContatoEgressoService serviceContatoEgresso;
 
+    @Autowired
+    UsuarioService serviceUsuario;
+
+    public Egresso cadastrarEgresso(Egresso egresso, CursoEgresso cursoEgresso, ProfEgresso profEgresso, List<ContatoEgresso> listContatoEgresso, Usuario usuario) {
+        Egresso egresso_salvo = salvar(egresso);
+
+        cursoEgresso.setEgresso(egresso_salvo);
+        serviceCursoEgresso.salvar(cursoEgresso);
+
+        profEgresso.setEgresso(egresso_salvo);
+        serviceProfEgresso.salvar(profEgresso);
+
+        for (ContatoEgresso contatoEgresso : listContatoEgresso) {
+            if(!contatoEgresso.getDescricao().equals("")){
+                contatoEgresso.setEgresso(egresso_salvo);
+                serviceContatoEgresso.salvar(contatoEgresso);
+            }
+        }
+
+        serviceUsuario.salvar(usuario);
+        
+        return egresso_salvo;
+    }
+    
     public Egresso busca_dados_pagina_egresso(Long id){
         Optional<Egresso> egresso = repo.findById(id);
         if(egresso.isEmpty())
             throw new RegraNegocioRunTime("Erro ao buscar");
 
         return egresso.get();
-    }
-
-    public Egresso cadastrarEgresso(Egresso egresso, List<ProfEgresso> listProfissoes, List<CursoEgresso> listCursoEgresso, List<ContatoEgresso> listContatoEgresso) {
-        Egresso egresso_salvo = salvar(egresso);
-        for (ProfEgresso profEgresso : listProfissoes) {
-            profEgresso.setEgresso(egresso_salvo);
-            serviceProfEgresso.salvar(profEgresso);
-        }
-        for (CursoEgresso cursoEgresso : listCursoEgresso) {
-            cursoEgresso.setEgresso(egresso_salvo);
-            serviceCursoEgresso.salvar(cursoEgresso);
-        }
-        for (ContatoEgresso contatoEgresso : listContatoEgresso) {
-            contatoEgresso.setEgresso(egresso_salvo);
-            serviceContatoEgresso.salvar(contatoEgresso);
-        }
-        return egresso_salvo;
     }
 
     public List<Egresso> listar(){

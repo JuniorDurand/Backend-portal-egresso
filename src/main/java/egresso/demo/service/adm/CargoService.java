@@ -43,11 +43,12 @@ public class CargoService {
         repo.deleteById(id);
     }
 
-    // public void remover(Cargo cargo) {        
-    //     verificarId(cargo);
-    //     verificarProfEgresso(cargo);
-    //     repo.delete(cargo);
-    // }
+    public Cargo buscarPorId(Long id) {      
+        if(id == null)  throw new RegraNegocioRunTime("cargo não selecionado");
+        Optional<Cargo> cargo = repo.findById(id);
+        if(cargo.isEmpty()) throw new RegraNegocioRunTime("cargo não encontrado");
+        return cargo.get();
+    }
 
     private void verificarId(Cargo cargo) {
         if ((cargo == null) || (cargo.getId() == null))
