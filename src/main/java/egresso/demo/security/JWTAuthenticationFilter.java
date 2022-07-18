@@ -81,10 +81,9 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                         .compact();
         res.addHeader("token", JWT);
 
-                // String body = ((UsuarioDTO) auth.getPrincipal()).getEmail() + " " + JWT;
-        //         String body = JWT;
+        String body = JWT;
 
-        // res.getWriter().write(body);
-        // res.getWriter().flush();
+        res.getWriter().write(body);
+        res.getWriter().flush();
     }
 }
