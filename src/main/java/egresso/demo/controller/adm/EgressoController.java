@@ -123,6 +123,39 @@ public class EgressoController {
         }
     }
 
+    @GetMapping("/buscar_dados_egresso")
+    public ResponseEntity buscar_dados_egresso(@RequestParam("id") Long id) {
+        try {
+            Egresso egresso = service.buscar_por_id(id);
+            return ResponseEntity.ok(egresso);
+        } catch(RegraNegocioRunTime e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/editar")
+    public ResponseEntity editar(@RequestParam("id") Long id,
+                                    @RequestParam("nome") String nome,
+                                    @RequestParam("email") String email,
+                                    @RequestParam("cpf") String cpf,
+                                    @RequestParam("resumo") String resumo) {
+        try {
+
+            Egresso egresso = Egresso.builder()
+                                .id(id)
+                                .nome(nome)
+                                .email(email)
+                                .cpf(cpf)
+                                .resumo(resumo)
+                                .build();
+
+            Egresso salvo = service.editar(egresso);
+            return ResponseEntity.ok(salvo);
+        } catch(RegraNegocioRunTime e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
 
     @GetMapping("/dados_egresso")
     public ResponseEntity busca_dados_pagina_egresso(@RequestParam("id") Long id) {

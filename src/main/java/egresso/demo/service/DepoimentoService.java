@@ -1,11 +1,13 @@
 package egresso.demo.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import egresso.demo.entity.Depoimento;
+import egresso.demo.entity.Egresso;
 import egresso.demo.entity.repository.DepoimentoRepo;
 import egresso.demo.service.exceptions.RegraNegocioRunTime;
 
@@ -33,6 +35,18 @@ public class DepoimentoService {
     public void remover(Depoimento depoimento) {        
         verificarId(depoimento);
         repo.delete(depoimento);
+    }
+
+    public List<Depoimento> buscar_por_egresso(Egresso egresso) {        
+        List<Depoimento> depoimentos = repo.findByEgresso(egresso);
+        return depoimentos;
+    }
+
+    public Depoimento buscarPorId(Long id) {      
+        if(id == null)  throw new RegraNegocioRunTime("depoimento não selecionado");
+        Optional<Depoimento> depoimento = repo.findById(id);
+        if(depoimento.isEmpty()) throw new RegraNegocioRunTime("depoimento não encontrado");
+        return depoimento.get();
     }
 
     public void removerPorId(Long idDepoimento) {        

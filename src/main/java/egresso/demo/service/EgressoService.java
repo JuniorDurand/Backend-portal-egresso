@@ -60,15 +60,21 @@ public class EgressoService {
         serviceProfEgresso.salvar(profEgresso);
 
         for (ContatoEgresso contatoEgresso : listContatoEgresso) {
-            if(!contatoEgresso.getDescricao().equals("")){
-                contatoEgresso.setEgresso(egresso_salvo);
-                serviceContatoEgresso.salvar(contatoEgresso);
-            }
+            contatoEgresso.setEgresso(egresso_salvo);
+            serviceContatoEgresso.salvar(contatoEgresso);
         }
 
         serviceUsuario.salvar(usuario);
         
         return egresso_salvo;
+    }
+
+    public Egresso buscar_por_id(Long id){
+        Optional<Egresso> egresso = repo.findById(id);
+        if(egresso.isEmpty())
+            throw new RegraNegocioRunTime("Erro ao buscar");
+
+        return egresso.get();
     }
     
     public Egresso busca_dados_pagina_egresso(Long id){
@@ -87,12 +93,14 @@ public class EgressoService {
 
     public Egresso salvar(Egresso egresso) {
         verificarDadosEgresso(egresso);
+        verificarDadosEgressoNovo(egresso);
         return repo.save(egresso);
     }
 
     public Egresso editar(Egresso egresso) {
         verificarId(egresso);
-        return salvar(egresso);
+        verificarDadosEgresso(egresso);
+        return repo.save(egresso);
     }
 
     public void remover(Egresso egresso) {        
@@ -115,15 +123,18 @@ public class EgressoService {
         if ((egresso.getNome() == null) || (egresso.getNome().equals("")))
             throw new RegraNegocioRunTime("Nome do egresso deve ser informado");    
         if ((egresso.getEmail() == null) || (egresso.getEmail().equals("")))
-            throw new RegraNegocioRunTime("Email deve ser informado");          
-        boolean email_existente = repo.existsByEmail(egresso.getEmail());
-        if (email_existente)
-            throw new RegraNegocioRunTime("Email informado já existe na base");               
+            throw new RegraNegocioRunTime("Email deve ser informado");                         
         if ((egresso.getCpf() == null) || (egresso.getCpf().equals("")))
             throw new RegraNegocioRunTime("Cpf deve ser informado");          
+    }
+
+    private void verificarDadosEgressoNovo(Egresso egresso) {
+        boolean email_existente = repo.existsByEmail(egresso.getEmail());
+        if (email_existente)
+            throw new RegraNegocioRunTime("Email informado já existe na base");
         boolean cpf_existente = repo.existsByEmail(egresso.getCpf());
         if (cpf_existente)
-            throw new RegraNegocioRunTime("Cpf informado já existe na base");
+                throw new RegraNegocioRunTime("Cpf informado já existe na base");
     }
     
     private void verificarDepoimento(Egresso egresso) {

@@ -1,9 +1,14 @@
 package egresso.demo.service;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import egresso.demo.entity.CursoEgresso;
+import egresso.demo.entity.CursoEgressoId;
+import egresso.demo.entity.Egresso;
 import egresso.demo.entity.repository.CursoEgressoRepo;
 import egresso.demo.service.exceptions.RegraNegocioRunTime;
 
@@ -27,6 +32,17 @@ public class CursoEgressoService {
         verificarId(cursoEgresso);
         repo.delete(cursoEgresso);
     }
+
+    public List<CursoEgresso>buscar_por_Egresso(Egresso egresso) { 
+        List<CursoEgresso> contatos = repo.findByEgresso(egresso); 
+        return contatos;
+    }
+
+    public CursoEgresso buscar_por_id(CursoEgressoId id) { 
+        Optional<CursoEgresso> curso_egresso = repo.findById(id); 
+        return curso_egresso.get();
+    }
+
 
     private void verificarId(CursoEgresso cursoEgresso) {
         if ((cursoEgresso == null) || (cursoEgresso.getId() == null))
