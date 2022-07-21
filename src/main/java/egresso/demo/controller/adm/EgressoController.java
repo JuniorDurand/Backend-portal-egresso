@@ -1,7 +1,8 @@
 package egresso.demo.controller.adm;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
+import java.time.LocalDate;
+import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
@@ -13,7 +14,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import egresso.demo.controller.dto.CadastroDTO;
@@ -165,6 +168,12 @@ public class EgressoController {
         } catch(RegraNegocioRunTime e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
+    }
+
+    @RequestMapping(value = "/egresso", method = RequestMethod.GET)
+    @ResponseBody
+    public Egresso currentUser(Principal principal) {
+       return service.obterEgressoPorEmail(principal.getName());
     }
     
 }

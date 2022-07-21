@@ -85,6 +85,10 @@ public class EgressoService {
         return egresso.get();
     }
 
+    public Egresso obterEgressoPorEmail(String email){
+        return repo.findByEmail(email);
+    }
+
     public List<Egresso> listar(){
         List<Egresso> egressos = repo.getAllEgressos();
         if(egressos.isEmpty()) throw new RegraNegocioRunTime("Erro ao buscar os egressos");
