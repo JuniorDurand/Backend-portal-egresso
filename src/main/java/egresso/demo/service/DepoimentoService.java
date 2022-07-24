@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import egresso.demo.entity.Depoimento;
@@ -35,6 +36,10 @@ public class DepoimentoService {
     public void remover(Depoimento depoimento) {        
         verificarId(depoimento);
         repo.delete(depoimento);
+    }
+
+    public List<Depoimento> getDepoimentosOrderByMostRecent(){
+        return repo.findAll(Sort.by("data"));
     }
 
     public List<Depoimento> buscar_por_egresso(Egresso egresso) {        
