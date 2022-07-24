@@ -123,6 +123,8 @@ public class EgressoController {
             return ResponseEntity.ok(egress);
         } catch(RegraNegocioRunTime e) {
             return ResponseEntity.badRequest().body(e.getMessage());
+        } catch(Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
