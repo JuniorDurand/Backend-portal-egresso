@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.expression.ParseException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,6 +37,19 @@ public class DepoimentoController {
             
             return ResponseEntity.ok(depoimentos);
         } catch(RegraNegocioRunTime e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/recentes")
+    public ResponseEntity<Object> obterOrdenadosPorMaisRecente() {
+        try {
+            List<Depoimento> deps = service.getDepoimentosOrderByMostRecent();
+            return ResponseEntity.ok(deps);
+                                
+        } catch (RegraNegocioRunTime e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }catch (ParseException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
