@@ -33,14 +33,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
           .authorizeRequests()
-        //   //a linha a seguir pode ser retirada
+          //   autenticação e cadastro
           .antMatchers(HttpMethod.POST, SecurityConstants.SIGN_UP_URL).permitAll() 
-          .antMatchers(HttpMethod.POST, "api/usuarios").permitAll() 
-        //   //URL pública
-          .antMatchers(HttpMethod.POST, "/login").permitAll()
-          .antMatchers(HttpMethod.GET, "/login").permitAll()
           .antMatchers(HttpMethod.POST, "/api/login").permitAll()
-          .antMatchers(HttpMethod.GET, "/api/login").permitAll()
+          //   //URL pública
+          .antMatchers(HttpMethod.GET, "/api/cursos/listar").permitAll()
+          .antMatchers(HttpMethod.GET, "/api/cargos/listar").permitAll()
+          .antMatchers(HttpMethod.GET, "/api/egressos/listar").permitAll()
+          .antMatchers(HttpMethod.GET, "/api/depoimentos/recentes").permitAll()
+          .antMatchers(HttpMethod.GET, "/api/depoimentos/listar").permitAll()
+          .antMatchers(HttpMethod.GET, "/api/salarios/listar").permitAll()
+          .antMatchers(HttpMethod.GET, "/api/contatos/listar").permitAll()
           .anyRequest().authenticated()
           .and()
         //   .addFilter(new AuthenticationFilter(authenticationManager()))
