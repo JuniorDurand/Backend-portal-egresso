@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import egresso.demo.entity.ContatoEgresso;
 import egresso.demo.entity.CursoEgresso;
@@ -50,6 +51,7 @@ public class EgressoService {
     @Autowired
     UsuarioService serviceUsuario;
 
+    @Transactional(rollbackFor = Exception.class)
     public Egresso cadastrarEgresso(Egresso egresso, CursoEgresso cursoEgresso, ProfEgresso profEgresso, List<ContatoEgresso> listContatoEgresso, Usuario usuario) {
         Egresso egresso_salvo = salvar(egresso);
 
