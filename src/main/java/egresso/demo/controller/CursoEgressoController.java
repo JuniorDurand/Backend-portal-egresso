@@ -43,7 +43,7 @@ public class CursoEgressoController {
         try {
             Egresso egresso = serviceEgresso.buscar_por_id(id_egresso);
             List<CursoEgresso> cursos = service.buscar_por_Egresso(egresso);
-            
+
             return ResponseEntity.ok(cursos);
         } catch(RegraNegocioRunTime e) {
             return ResponseEntity.badRequest().body(e.getMessage());

@@ -34,8 +34,8 @@ public class CursoEgressoService {
     }
 
     public List<CursoEgresso>buscar_por_Egresso(Egresso egresso) { 
-        List<CursoEgresso> contatos = repo.findByEgresso(egresso); 
-        return contatos;
+        List<CursoEgresso> cursos = repo.findByEgresso(egresso); 
+        return cursos;
     }
 
     public CursoEgresso buscar_por_id(CursoEgressoId id) { 

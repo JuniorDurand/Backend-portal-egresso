@@ -140,7 +140,7 @@ public class EgressoController {
                                     @RequestParam("cpf") String cpf,
                                     @RequestParam("resumo") String resumo) {
         try {
-
+            
             Egresso egresso = Egresso.builder()
                                 .id(id)
                                 .nome(nome)

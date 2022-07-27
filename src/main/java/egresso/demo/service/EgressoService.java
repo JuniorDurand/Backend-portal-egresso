@@ -98,7 +98,13 @@ public class EgressoService {
     }
 
     public Egresso editar(Egresso egresso) {
-        verificarId(egresso);
+        String email_aux = buscar_por_id(egresso.getId()).getEmail();
+        if(!egresso.getEmail().equals(email_aux)){
+            boolean email_existente = repo.existsByEmail(egresso.getEmail());
+            if (email_existente)
+            throw new RegraNegocioRunTime("Email informado já foi cadastrado");
+        }
+
         verificarDadosEgresso(egresso);
         return repo.save(egresso);
     }
@@ -125,13 +131,13 @@ public class EgressoService {
         if ((egresso.getEmail() == null) || (egresso.getEmail().equals("")))
             throw new RegraNegocioRunTime("Email deve ser informado");                         
         if ((egresso.getCpf() == null) || (egresso.getCpf().equals("")))
-            throw new RegraNegocioRunTime("Cpf deve ser informado");          
+            throw new RegraNegocioRunTime("Cpf deve ser informado");        
     }
 
     private void verificarDadosEgressoNovo(Egresso egresso) {
         boolean email_existente = repo.existsByEmail(egresso.getEmail());
         if (email_existente)
-            throw new RegraNegocioRunTime("Email informado já existe na base");
+            throw new RegraNegocioRunTime("Email informado já foi cadastrado");
         boolean cpf_existente = repo.existsByEmail(egresso.getCpf());
         if (cpf_existente)
                 throw new RegraNegocioRunTime("Cpf informado já existe na base");

@@ -1,9 +1,12 @@
 package egresso.demo.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import egresso.demo.entity.ContatoEgresso;
+import egresso.demo.entity.Egresso;
 import egresso.demo.entity.repository.ContatoEgressoRepo;
 import egresso.demo.service.exceptions.RegraNegocioRunTime;
 
@@ -18,6 +21,13 @@ public class ContatoEgressoService {
         return repo.save(contatoEgresso);
     }
 
+    public void editarLista(List<ContatoEgresso> contatoEgressoList){
+        for (ContatoEgresso contatoEgresso : contatoEgressoList) {
+            verificarId(contatoEgresso);
+            salvar(contatoEgresso);
+        }
+    }
+
     public ContatoEgresso editar(ContatoEgresso contatoEgresso) {
         verificarId(contatoEgresso);
         return salvar(contatoEgresso);
@@ -26,6 +36,11 @@ public class ContatoEgressoService {
     public void remover(ContatoEgresso contatoEgresso) {        
         verificarId(contatoEgresso);
         repo.delete(contatoEgresso);
+    }
+
+    public List<ContatoEgresso>buscar_por_Egresso(Egresso egresso) { 
+        List<ContatoEgresso> contatos = repo.findByEgresso(egresso); 
+        return contatos;
     }
 
     private void verificarId(ContatoEgresso contatoEgresso) {

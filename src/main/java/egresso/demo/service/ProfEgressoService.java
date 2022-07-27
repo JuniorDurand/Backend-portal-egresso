@@ -1,8 +1,11 @@
 package egresso.demo.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import egresso.demo.entity.Egresso;
 import egresso.demo.entity.ProfEgresso;
 import egresso.demo.entity.repository.ProfEgressoRepo;
 import egresso.demo.service.exceptions.RegraNegocioRunTime;
@@ -27,6 +30,11 @@ public class ProfEgressoService {
     public void remover(ProfEgresso profEgresso) {        
         verificarId(profEgresso);
         repo.delete(profEgresso);
+    }
+
+    public List<ProfEgresso>buscar_por_Egresso(Egresso egresso) { 
+        List<ProfEgresso> profissoes = repo.findByEgresso(egresso); 
+        return profissoes;
     }
 
     private void verificarId(ProfEgresso profEgresso) {
