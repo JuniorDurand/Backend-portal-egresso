@@ -99,5 +99,12 @@ public class UsuarioService  implements UserDetailsService{
         }
     
     
+    public Usuario ObterUsuario(String email){
+        return repo.findByEmail(email).get();
+    }
+
+    public boolean EAdmin(String email){
+        return repo.findByEmail(email).get().getAdm() == 1;
+    }
     
 }
