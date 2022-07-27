@@ -53,14 +53,14 @@ public class ProfEgressoController {
     }
 
     @PostMapping("/cadastrar")
-    public ResponseEntity cadastrar(@RequestParam("id") Long id,
+    public ResponseEntity cadastrar(@RequestParam("id_egresso") Long id_egresso,
                                         @RequestParam("empresa") String empresa,
                                         @RequestParam("descricao") String descricao,
                                         @RequestParam("cargoId") Long cargoId,
                                         @RequestParam("salarioId") Long salarioId) {
         
         try {
-            Egresso egresso = serviceEgresso.buscar_por_id(id);
+            Egresso egresso = serviceEgresso.buscar_por_id(id_egresso);
             Cargo cargo = serviceCargo.buscarPorId(cargoId);
             FaixaSalario faixaSalario = serviceFaixaSalario.buscarPorId(salarioId);
 
@@ -73,8 +73,48 @@ public class ProfEgressoController {
                                 .faixaSalario(faixaSalario)
                                 .build();
 
-            service.salvar(prof_egr);
-            return ResponseEntity.ok(prof_egr);
+            ProfEgresso salvo = service.salvar(prof_egr);
+            return ResponseEntity.ok(salvo);
+        } catch(RegraNegocioRunTime e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/editar")
+    public ResponseEntity editar(@RequestParam("id") Long id,
+                                    @RequestParam("id_egresso") Long id_egresso,
+                                    @RequestParam("empresa") String empresa,
+                                    @RequestParam("descricao") String descricao,
+                                    @RequestParam("cargoId") Long cargoId,
+                                    @RequestParam("salarioId") Long salarioId) {
+        try {
+            Egresso egresso = serviceEgresso.buscar_por_id(id_egresso);
+            Cargo cargo = serviceCargo.buscarPorId(cargoId);
+            FaixaSalario faixaSalario = serviceFaixaSalario.buscarPorId(salarioId);
+
+            ProfEgresso prof_egr =  ProfEgresso.builder()
+                                .id(id)
+                                .empresa(empresa)
+                                .descricao(descricao)
+                                .dataRegistro(LocalDate.now())
+                                .egresso(egresso)
+                                .cargo(cargo)
+                                .faixaSalario(faixaSalario)
+                                .build();
+
+            ProfEgresso salvo = service.editar(prof_egr);
+            return ResponseEntity.ok(salvo);
+        } catch(RegraNegocioRunTime e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/remover")
+    public ResponseEntity remover(@RequestParam("id") Long id) {
+
+        try {
+            service.remover(id);
+            return ResponseEntity.ok(true);
         } catch(RegraNegocioRunTime e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

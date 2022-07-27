@@ -1,6 +1,7 @@
 package egresso.demo.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,14 @@ public class ProfEgressoService {
     public ProfEgresso editar(ProfEgresso profEgresso) {
         verificarId(profEgresso);
         return salvar(profEgresso);
+    }
+
+    public void remover(Long id) {
+        if(id == null)  throw new RegraNegocioRunTime("Profissão não encontrada");
+        Boolean prof_egr = repo.existsById(id);
+        if(!prof_egr)
+            throw new RegraNegocioRunTime("Erro ao buscar");
+        repo.deleteById(id);
     }
 
     public void remover(ProfEgresso profEgresso) {        
