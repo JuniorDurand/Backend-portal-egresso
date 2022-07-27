@@ -36,20 +36,25 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
           //   autenticação e cadastro
           .antMatchers(HttpMethod.POST, SecurityConstants.SIGN_UP_URL).permitAll() 
           .antMatchers(HttpMethod.POST, "/api/login").permitAll()
-          //   //URL pública
+          //  URL pública
+          // Listas
           .antMatchers(HttpMethod.GET, "/api/cursos/listar").permitAll()
-          .antMatchers(HttpMethod.GET, "/api/cargos/listar").permitAll()
           .antMatchers(HttpMethod.GET, "/api/egressos/listar").permitAll()
           .antMatchers(HttpMethod.GET, "/api/depoimentos/recentes").permitAll()
-          .antMatchers(HttpMethod.GET, "/api/depoimentos/listar").permitAll()
+          .antMatchers(HttpMethod.GET, "/api/cargos/listar").permitAll()
           .antMatchers(HttpMethod.GET, "/api/salarios/listar").permitAll()
+          // Pagina egresso
+          .antMatchers(HttpMethod.GET, "/api/egressos/dados_egresso").permitAll()
+          .antMatchers(HttpMethod.GET, "/api/cursos_egresso/listar").permitAll()
+          .antMatchers(HttpMethod.GET, "/api/contatos_egresso/listar").permitAll()
+          .antMatchers(HttpMethod.GET, "/api/depoimentos/listar").permitAll()
           .antMatchers(HttpMethod.GET, "/api/contatos/listar").permitAll()
           .anyRequest().authenticated()
           .and()
         //   .addFilter(new AuthenticationFilter(authenticationManager()))
         //   .addFilter(new AuthorizationFilter(authenticationManager()))                
-          .addFilter(new JWTAuthorizationFilter(authenticationManager()))                
-          .addFilter(new JWTAuthenticationFilter(authenticationManager()))                
+        .addFilter(new JWTAuthenticationFilter(authenticationManager()))                
+        .addFilter(new JWTAuthorizationFilter(authenticationManager()))                
           .sessionManagement()
           .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
